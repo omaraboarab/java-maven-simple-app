@@ -1,0 +1,47 @@
+pipline {
+agent any
+tools{
+
+maven 'maven-3.9'
+
+}
+stages{
+    stage('build jar'){
+        steps{
+
+echo "building jar file ..."
+sh 'mvn package'
+    }
+    }
+
+stage('build images')
+{
+    steps{
+echo "building docker image ..."
+withcredentials([usernamepassword(credentialsId:'DockerJen',passwordVariable:'PASSWORD',usernameVariable : 'USER' )])
+{
+    sh 'docker build -t omaraboarab/appimg:mvn .'
+sh "echo $PASSWORD | docker login -u $USER --password-stdin"
+sh ' docker push omaraboarab/appimg:jmvn '
+}
+    }
+}
+stage('Deploy app'){
+    steps{
+
+echo "Start Deploying app"
+    
+    }
+}
+
+
+
+
+}
+
+
+
+
+
+
+}
