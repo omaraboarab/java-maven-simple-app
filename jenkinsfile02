@@ -18,7 +18,7 @@ stage('build images')
 {
     steps{
 echo "building docker image ..."
-withcredentials([usernamePassword(credentialsId:'DockerJen',passwordVariable:'PASSWORD',usernameVariable : 'USER' )])
+withCredentials([usernamePassword(credentialsId:'DockerJen',passwordVariable:'PASSWORD',usernameVariable : 'USER' )])
 {
     sh 'docker build -t omaraboarab/appimg:mvn .'
 sh "echo $PASSWORD | docker login -u $USER --password-stdin"
